@@ -62,53 +62,43 @@ def index(request):
 
 
 def Configuration(request):
+    if request.method == "POST":
+        with open("main/static/functiontest.js", "w") as outfile:
+            outfile.truncate(0)
+            outfile.write(request.POST.dict()["JS"])
+        
+        file = json.loads(request.POST.dict()["JSON"])
+        json_object = json.dumps(file, ensure_ascii=False, indent=4)
+        with open("media/question/data.json", "w") as outfile:
+            outfile.truncate(0)
+            outfile.write(json_object)
+
+        with open("main/static/styleQuestionnaire.css", "w") as outfile:
+            outfile.truncate(0)
+            outfile.write(request.POST.dict()["CSS"])
+
+        
+
+        
+
+        
+
+
     return render(request, 'main/configuration.html')
 
 
 def Questionnaire(request):
     with open("media/question/data.json") as json_file:
-        jsonfile = json.load(json_file)
-
-    nombre_question=len(jsonfile["QCM"])
-
-    question=[]
-    point=[]
-    types=[]
-    choix=[]
-    reponse=[]
-    explication=[]
-    index=[]
-
-    for o in range (nombre_question):
-        question.append(jsonfile["QCM"]["Question {}".format(o+1)]["Question"])
-        point.append(jsonfile["QCM"]["Question {}".format(o+1)]["Points"])
-        types.append(jsonfile["QCM"]["Question {}".format(o+1)]["type"])
-        choix.append(jsonfile["QCM"]["Question {}".format(o+1)]["Choix"])
-        reponse.append(jsonfile["QCM"]["Question {}".format(o+1)]["Reponse attendu"])
-        explication.append(jsonfile["QCM"]["Question {}".format(o+1)]["Explication"])
-        index.append(o+1)
-        print("hello")
-        ElementsQuestion=zip(question,point,types,choix,reponse,explication,index)
-        context = {'ElementsQuestion':ElementsQuestion}
-
-    
+        jsonfile = json.dumps(json.load(json_file))
 
     if request.method == "POST":
-        Correction=[]
-        reponses = request.POST.dict()
-        for i in range (nombre_question):
-            print(reponses["Question{}".format(i+1)])
-            Correction.append(CallChatGpt(question[i],reponses["Question{}".format(i+1)]))
+        print(request.POST)
         
-        #Correction = ["oui","oui"]
-        #print(Correction)
-        ElementsQuestion=zip(question,point,types,choix,reponse,explication,index,Correction)
-        context = {'ElementsQuestion':ElementsQuestion}
     
+    context = {
+        "jsonfile" : jsonfile,
+    }
     
-
-
-
     return render(request, 'main/questionnaire.html',context)
 
 

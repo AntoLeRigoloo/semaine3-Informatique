@@ -1,20 +1,30 @@
 {
-    "Presentation": {
-        "Sous-titre": "oui",
-        "texte": "oui",
-        "Sous-titre2": "oui",
-        "texte2": "non"
-    },
     "QCM": {
-        "Question 1": {
+        "1": {
             "Question": "Quelles plantes sont carnivores?",
             "Points": "2",
             "type": "ouverte",
-            "Choix": "(tableau) (skip si question=ouverte)[\"oui\",\"non\"]",
+            "Choix": "",
             "Reponse attendu": "oui",
             "Explication": "non"
         },
-        "Question 2": {
+        "2": {
+            "Question": "Quelles plantes sont carnivores?",
+            "Points": "2",
+            "type": "ouverte",
+            "Choix": "",
+            "Reponse attendu": "oui",
+            "Explication": "non"
+        },
+        "3": {
+            "Question": "Quelles plantes sont carnivores?",
+            "Points": "2",
+            "type": "ouverte",
+            "Choix": "",
+            "Reponse attendu": "oui",
+            "Explication": "non"
+        },
+        "4": {
             "Question": "Le ciel est bleu?",
             "Points": "1",
             "type": "qcm",
@@ -25,11 +35,18 @@
             ],
             "Reponse attendu": "non",
             "Explication": "oui"
-        }
-    },
-    "Format_ini": {
-        "ini": {
-            "Titre": "QCM fou"
+        },
+        "5": {
+            "Question": "Le ciel est bleu?",
+            "Points": "1",
+            "type": "qcm",
+            "Choix": [
+                "oui",
+                "non",
+                "peut-être"
+            ],
+            "Reponse attendu": "non",
+            "Explication": "oui"
         }
     }
 }

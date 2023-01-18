@@ -18,14 +18,24 @@
     </div>
 
 
-    <!-- <input type="file" id="file" accept="application/json"> -->
+    <input type="file" id="JSON-input" accept="application/json">
+    <input type="file" id="JS-input" accept=".js">
+    <input type="file" id="CSS-input" accept=".css">
+
+
+
 
     <form enctype="multipart/form-data" method="post">
         {% csrf_token %}    
-        {{ form.as_p }}
-        <button id="btn" name="jsonUpload" value="">Upload</button>
+        <input id="JSON"type="hidden" name="JSON" value="">
+        <input id="JS"  type="hidden" name="JS" value="">
+        <input id="CSS" type="hidden" name="CSS" value="">
+
+
+
+        <button id="btn" name="jsonUpload">Upload</button>
+        
     </form>
-    <h1>{{name}}</h1>
 
     <script type="text/javascript" src="{% static 'script.js' %}"></script>
 
