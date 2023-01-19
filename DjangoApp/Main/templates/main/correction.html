@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
 
-    <title>correction</title>
+    <title>Correction</title>
 </head>
 <body>
     <div class="header">
@@ -19,16 +19,16 @@
     <div class="container-note">
         <span class="span-note">Felicitation, Tu as eu {{note}}/20</span>
     </div>
-
-    <!-- {% for Element in ElementsQuestion %}
-    <p>Question: {{Element.0}} </p>
-    <p>reponse: {{Element.2}}</p>
-    <p>Correction: {{Element.1}} </p>
-
-
-
-    <br>
-    {%endfor%}
-    <hr>{{note}}<hr />   -->
+    <div class="container-questions">
+        {% for Element in ElementsQuestion %}
+        <div class="question">
+            <div class="div-question">
+                <span class="span-question">Question {{forloop.counter}} : {{Element.0}} ({{Element.3}}pts)</span>
+                <span class="etat-question">{{Element.1}}</span>
+            </div>
+            <input disabled="disabled" class="input-question" type="text" value="{{Element.2}}">
+        </div>
+        {%endfor%}
+    </div>
 </body>
 </html>

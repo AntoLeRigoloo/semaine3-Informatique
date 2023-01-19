@@ -5,7 +5,7 @@
 
 //     let spanQuestion = document.createElement("span");
 //     spanQuestion.className = "span-question"; // Create a span element et ecris l'ennoncé de la question
-//     spanQuestion.innerHTML = "Question "+index+" :" + json.Question;
+//     spanQuestion.innerHTML = "Question "+index+" : " + json.Question;
 
 //     let input = document.createElement("input"); // Create a input element
 //     input.type = "text";
@@ -26,7 +26,7 @@ function qcm(json,form,index){
 
     let spanQuestion = document.createElement("span"); // Create a span element et ecris l'ennoncé de la question
     spanQuestion.className = "span-question";
-    spanQuestion.innerHTML = "Question "+index+" :" + json.Question;
+    spanQuestion.innerHTML = "Question "+index+" : " + json.Question;
     form.appendChild(div);
     div.appendChild(spanQuestion);
 

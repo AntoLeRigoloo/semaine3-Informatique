@@ -3,7 +3,7 @@ import json
 import openai
 import os
 
-openai.api_key = "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"
+openai.api_key = "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"
 
 
 
@@ -109,31 +109,33 @@ def Correction(request):
     Cette fonction sert à générer la page /correction
     Elle permet d'envoyer toutes les informations nécessaires pour que le prof puisse corriger l'élève
     '''
-    # with open("media/question/data.json") as json_file:     #On récupère les infos du json et on les stoques dans jsonfile
-    #     jsonfile = json.load(json_file)                     
+    with open("media/question/data.json") as json_file:     #On récupère les infos du json et on les stoques dans jsonfile
+        jsonfile = json.load(json_file)                     
 
-    # nombre_question=len(jsonfile["QCM"])    #représente le nombre de question dans le json
-    # question=[]
-    # reponse_list=[]
+    nombre_question=len(jsonfile["QCM"])    #représente le nombre de question dans le json
+    question=[]
+    reponse_list=[]
+    points=[]
 
-    # for o in range (nombre_question):
-    #     question.append(jsonfile["QCM"]["{}".format(o+1)]["Question"])      #on met dans la liste "question" tous les énoncés des question du json
+    for o in range (nombre_question):
+        question.append(jsonfile["QCM"]["{}".format(o+1)]["Question"])      #on met dans la liste "question" tous les énoncés des question du json
+        points.append(jsonfile["QCM"]["{}".format(o+1)]["Points"])          #on met dans la liste "points" tous les points de chaque question du json
 
-    # if request.method == "POST":    #sert à verifier que l'élève a envoyé son formulaire
-    #     Correction=[]
-    #     reponsePost = request.POST.dict()       #représente les réponses de l'élève
+    if request.method == "POST":    #sert à verifier que l'élève a envoyé son formulaire
+        Correction=[]
+        reponsePost = request.POST.dict()       #représente les réponses de l'élève
 
-    #     for i in range (nombre_question):
-    #         Correction.append(CallChatGpt(question[i],reponsePost["Question{}".format(i+1)]))       #ajoute à la liste Correction la réponse de l'élève si elle est correcte/incorret
+        for i in range (nombre_question):
+            Correction.append(CallChatGpt(question[i],reponsePost["Question{}".format(i+1)]))       #ajoute à la liste Correction la réponse de l'élève si elle est correcte/incorret
 
-    #     for i in range (nombre_question):
-    #         reponse_list.append(reponsePost["Question{}".format(i+1)])      #ajoute à la liste reponse_list les réponses de l'élève
+        for i in range (nombre_question):
+            reponse_list.append(reponsePost["Question{}".format(i+1)])      #ajoute à la liste reponse_list les réponses de l'élève
 
-    #     note=Note(Correction)[2]        #C'est la note de l'élève
-    #     ElementsQuestion=zip(question,Correction,reponse_list)      #On met dans ce zip tous les énoncés des questions, les corrections et les réponses de l'élève.
-    #     context = {'ElementsQuestion':ElementsQuestion} 
-    #     context['note'] = note      #met la note dans le contexte
-    #     print(Correction)
+        note=Note(Correction)[2]        #C'est la note de l'élève
+        ElementsQuestion=zip(question,Correction,reponse_list,points)      #On met dans ce zip tous les énoncés des questions, les corrections et les réponses de l'élève.
+        context = {'ElementsQuestion':ElementsQuestion} 
+        context['note'] = note      #met la note dans le contexte
+        print(Correction)
 
-    return render(request,'main/correction.html')
+    return render(request,'main/correction.html', context )
 

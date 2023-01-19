@@ -27,9 +27,55 @@ body{
 .container-note{
     display: flex;
     padding-top: 150px;
+    padding-bottom: 75px;
     justify-content: center;
 }
 .span-note{
     font-size: 40px;
     font-weight: bold;
 }
+.container-questions{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap:75px;
+    padding-bottom: 75px;
+
+}
+
+.question{
+    width: 75%;
+    border-radius: 20px;
+    box-shadow: 0px 0px 20px 5px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 60px;
+    gap: 20px;
+    box-sizing: border-box;
+}
+.div-question{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.span-question{
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.etat-question{
+    font-size: 20px;
+
+}
+
+.input-question{
+    border: 0;
+    box-shadow:inset 0px 0px 20px 5px rgba(0,0,0,0.1);
+    height: 70px;
+    border-radius: 20px;
+    padding: 0 20px;
+    font-size: 25px;
+}
+
