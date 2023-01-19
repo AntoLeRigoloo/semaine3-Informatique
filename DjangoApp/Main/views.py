@@ -3,14 +3,22 @@ import json
 import openai
 import os
 
-openai.api_key = "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"
+openai.api_key = "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"
+
+
+
 
 def CallChatGpt(question,reponse):
+    '''Cette fonction permet d'envoyer a 'chat GPT' un texte predefini,
+    celui-ci est formaté pour que l'IA comprenne bien le contexte de la question et retourne une reponse 
+    predefini en 'binaire' (.\n\nCorrecte ,  .\n\nIncorrect) qui nous permettra par la suite de l'ananlyser
+    '''
     questionAposer = "Partons du principe que tu es un professeur ayant realise un examen. a la question comportant la consigne : {}. ton eleve a repondu : {}. est-ce que cette réponse est correcte ou incorrecte ? Réponds uniquement en un seul mot sans utilisation de points à la fin de ta phrase".format(question,reponse)
+    #la phrase transmise a chat GPT
     res = str(openai.Completion.create(
         model="text-davinci-003",
         prompt = questionAposer,
-        max_tokens=5,
+        max_tokens=5,   #on 'filtre la reponse pour ne resortir que les 5premier tokens, ici '.\n\nCorrecte'
         temperature=0
     ))
     res = json.loads(res)
@@ -19,11 +27,21 @@ def CallChatGpt(question,reponse):
 
 
 
+
+
+
 def Configuration(request):
+    '''
+    Cette fonction sert à générer la page /configuration
+    On recupere ici les fichiers de configuration : JSON et les fonctions JS à ajouter
+    si des fichiers ont ete rendus, on efface ceux deja present dans le projet pour pouvoir deposer les nouveaux
+    On met le JS dans les statics pour pouvoir les importer dans les fichiers HTML
+    On met le JSON dans un dossier dans la racine du projet 
+    '''
     if request.method == "POST":
         print (request.POST.dict())
         try :
-            if request.post.dict()["JS"] != "":
+            if request.POST.dict()["JS"] != "":
                 with open("main/static/functiontest.js", "w") as outfile:
                     outfile.truncate(0)
                     outfile.write(request.POST.dict()["JS"])
@@ -42,14 +60,24 @@ def Configuration(request):
     return render(request, 'main/configuration.html')
 
 
+
+
+
 def Questionnaire(request):
-    with open("media/question/data.json") as json_file:
+    '''
+    On recupère le JSON et on le transmet au javascript via la page HTML
+    '''
+    with open("media/question/data.json") as json_file:     #On récupère les infos du json et on les stoques dans jsonfile
         jsonfile = json.dumps(json.load(json_file))    
     context = {
-        "jsonfile" : jsonfile,
+        "jsonfile" : jsonfile,  #On met toutes les info dans le context pour l'envoyer dans questionnaire.html
     }
     
     return render(request, 'main/questionnaire.html',context)
+
+
+
+
 
 
 def Note(liste_reponse):
@@ -64,45 +92,48 @@ def Note(liste_reponse):
     total_points = []
     bareme = 0
     reponse = 0
-    for question in qcm_data.values() :
-        bareme += int(question['Points'])
+    for question in qcm_data.values() :     #question va parcourir tout les question du json
+        bareme += int(question['Points'])   #on implemente le bareme/ nombre de points total du questionnaire
         if (liste_reponse[reponse]=='.\n\nCorrecte'):
-            total_points.append(int(question['Points']))
-        reponse += 1
+            total_points.append(int(question['Points']))    #on rajoute toutes les notes dans une liste en vu d'afficher le nombre de points reussi sur chaques questions
+        reponse += 1 #+1 pour augmenter la boucle
 
     return [sum(total_points),bareme,sum(total_points)*20/bareme]
 
+
+
+
+
 def Correction(request):
-    with open("media/question/data.json") as json_file:
-        jsonfile = json.load(json_file)
+    '''
+    Cette fonction sert à générer la page /correction
+    Elle permet d'envoyer toutes les informations nécessaires pour que le prof puisse corriger l'élève
+    '''
+    # with open("media/question/data.json") as json_file:     #On récupère les infos du json et on les stoques dans jsonfile
+    #     jsonfile = json.load(json_file)                     
 
-    nombre_question=len(jsonfile["QCM"])
-    question=[]
-    reponse_list=[]
+    # nombre_question=len(jsonfile["QCM"])    #représente le nombre de question dans le json
+    # question=[]
+    # reponse_list=[]
 
-    for o in range (nombre_question):
-        question.append(jsonfile["QCM"]["{}".format(o+1)]["Question"])
+    # for o in range (nombre_question):
+    #     question.append(jsonfile["QCM"]["{}".format(o+1)]["Question"])      #on met dans la liste "question" tous les énoncés des question du json
 
-    if request.method == "POST": 
-        Correction=[]
-        reponsePost = request.POST.dict()
+    # if request.method == "POST":    #sert à verifier que l'élève a envoyé son formulaire
+    #     Correction=[]
+    #     reponsePost = request.POST.dict()       #représente les réponses de l'élève
 
-        for i in range (nombre_question):
-            Correction.append(CallChatGpt(question[i],reponsePost["Question{}".format(i+1)]))
+    #     for i in range (nombre_question):
+    #         Correction.append(CallChatGpt(question[i],reponsePost["Question{}".format(i+1)]))       #ajoute à la liste Correction la réponse de l'élève si elle est correcte/incorret
 
-        for i in range (nombre_question):
-            reponse_list.append(reponsePost["Question{}".format(i+1)])
+    #     for i in range (nombre_question):
+    #         reponse_list.append(reponsePost["Question{}".format(i+1)])      #ajoute à la liste reponse_list les réponses de l'élève
 
-        note=Note(Correction)[2]
-        ElementsQuestion=zip(question,Correction,reponse_list)
-        context = {'ElementsQuestion':ElementsQuestion}
-        context['note'] = note
-        print(Correction)
+    #     note=Note(Correction)[2]        #C'est la note de l'élève
+    #     ElementsQuestion=zip(question,Correction,reponse_list)      #On met dans ce zip tous les énoncés des questions, les corrections et les réponses de l'élève.
+    #     context = {'ElementsQuestion':ElementsQuestion} 
+    #     context['note'] = note      #met la note dans le contexte
+    #     print(Correction)
 
-    return render(request,'main/correction.html',context)
-
-
-
-
-
+    return render(request,'main/correction.html')
 

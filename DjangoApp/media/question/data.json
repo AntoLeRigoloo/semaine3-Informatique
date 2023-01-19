@@ -15,7 +15,7 @@
             "Choix": [
                 "oui",
                 "non",
-                "peut-ï¿½tre"
+                "peut-être"
             ],
             "Reponse attendu": "non",
             "Explication": "oui"
@@ -37,10 +37,10 @@
             "Points": "1",
             "type": "qcm",
             "Choix": [
-                "Franï¿½ois Hollande",
+                "François Hollande",
                 "Nicolas Sarkozy",
                 "Emmanuel Macron",
-                "Franï¿½ois Mitterrand"
+                "François Mitterrand"
             ],
             "Reponse attendu": "non",
             "Explication": "oui"

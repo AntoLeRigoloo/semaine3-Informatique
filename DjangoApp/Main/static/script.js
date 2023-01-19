@@ -1,32 +1,30 @@
-let btn = document.getElementById("btn");
+let boxJSON = document.getElementById("boxJSON"); // Get the box where the user can drop the json file
+let JSON = document.getElementById("JSON"); // l'input hidden qui contiendra le json une fois le fichier déposé
 
-let boxJSON = document.getElementById("boxJSON");
-let JSON = document.getElementById("JSON");
-
-function onDragAndDropJSON(event){
-    event.preventDefault();
-    let fileType = event.dataTransfer.files[0].type;
-    if (fileType != "application/json") {
-        alert("Please drop a json file");
-        boxJSON.style.backgroundColor = "white";
+function onDragAndDropJSON(event){ // fonction qui s'execute quand on dépose un fichier dans la box
+    event.preventDefault(); // empeche le navigateur de faire ce qu'il veut (ouvrir le fichier par exemple)
+    let fileType = event.dataTransfer.files[0].type; // on prend le type du fichier ex : "application/json" ou "text/javascript"
+    if (fileType != "application/json") { // on test si le fichier est du bon type
+        alert("Please drop a json file"); // si ce n'est pas le cas on affiche un message d'erreur
+        boxJSON.style.backgroundColor = "white"; // on remet la couleur de fond de la box à blanc
         return;
     }
     else{
-        file = event.dataTransfer.items[0].getAsFile();
-        let fileReader = new FileReader();
-        fileReader.onload = onReaderLoadJSON;
-        fileReader.readAsText(file);
+        file = event.dataTransfer.items[0].getAsFile(); // on recupere le fichier déposé
+        let fileReader = new FileReader(); 
+        fileReader.onload = onReaderLoadJSON; // on appelle la fonction onReaderLoadJSON quand le fichier est chargé
+        fileReader.readAsText(file); // on charge le fichier comme etant un texte et non comme un fichier image par exemple
     }
 }
-function onChangeJSON(event) {
-    var reader = new FileReader();
+function onChangeJSON(event) { // fonction qui s'execute quand on change le fichier dans l'input dans la box
+    let reader = new FileReader();
     console.log("json triggers")
-    reader.onload = onReaderLoadJSON;
-    reader.readAsText(event.target.files[0]);
+    reader.onload = onReaderLoadJSON; // on appelle la fonction onReaderLoadJSON quand le fichier est chargé
+    reader.readAsText(event.target.files[0]); // on charge le fichier comme etant un texte et non comme un fichier image par exemple
 }
 function onReaderLoadJSON(event){
     console.log(event.target.result);
-    JSON.value = event.target.result;
+    JSON.value = event.target.result; // on met le contenu du fichier dans l'input hidden lié au json
 }
 document.getElementById('JSON-input').addEventListener('change', onChangeJSON);
 boxJSON.addEventListener("drop", onDragAndDropJSON);

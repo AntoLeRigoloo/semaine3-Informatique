@@ -15,7 +15,6 @@
 
     <title>Document</title>
 </head>
-<script type="text/javascript" src="{% static 'functiontest.js' %}"></script>
 
 <body>
     <div class="header">
@@ -34,37 +33,39 @@
 </body>
 
 <script type="text/javascript" src="{% static 'functionQuestionnaire.js' %}"></script>
+<script type="text/javascript" src="{% static 'functiontest.js' %}"></script>
+
 
 
 <script>
-    function CreateButtonSubmit(form){
-        let divButton = document.createElement("div");
+    function CreateButtonSubmit(form){ // crée le bouton pour submit quand la fonction est appelée
+        let divButton = document.createElement("div"); // create div element
         divButton.setAttribute("class","btn-container");
-        form.appendChild(divButton);
+        form.appendChild(divButton); // on l'ajoute au form
 
-
-        let btn = document.createElement("button");
+        let btn = document.createElement("button"); // create button element
         btn.setAttribute("class","btn-submit");
         btn.setAttribute("name","jsonUpload");
         btn.setAttribute("value","");
         btn.innerHTML = "Valider";
-        divButton.appendChild(btn);
+        divButton.appendChild(btn); //on l'ajoute au container qui est lui meme dans le form (ligne 44)
     }
 
-    function ReadJSON(){
-        let json = JSON.parse("{{jsonfile|escapejs}}");
-        let QCM = json.QCM;
-        let length = Object.keys(QCM).length;
+    function ReadJSON(){ // va recuperer le JSON et appeler les differentes fonctions en fonction du type des questions
+        let json = JSON.parse("{{jsonfile|escapejs}}"); // recupere le JSON depuis le contexte ( escapeJS permet de recuperer un JSON propre et pas polué avec des symboles bizarres du a Django)
+        let QCM = json.QCM; 
+        let length = Object.keys(QCM).length; // recupere le nombre de question 
 
         
-        for (let i=1; i < length+1; i++){
+        for (let i=1; i < length+1; i++){ // va executer une fonction pour chaque passage dans la boucle
             let question = QCM[i];
-            let Type = question.type;
-            eval(Type)(question,document.getElementById("form"),i);
+            let Type = question.type; // recupere le type dans le JSON
+            eval(Type)(question,document.getElementById("form"),i); // appelle une fonction (possiblement dans ce qui a ete importé par l'utilisateur ou dans les fonctions implementées de base)
         }
-        CreateButtonSubmit(document.getElementById("form"));
     }
-    ReadJSON();
+    ReadJSON(); //appelle la fonction ci dessus
+    CreateButtonSubmit(document.getElementById("form")); //creer le bouton après la creation de toutes les questions
+
     
 </script>
 </html>
