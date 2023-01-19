@@ -9,41 +9,38 @@
             "Explication": "non"
         },
         "2": {
-            "Question": "Quelles plantes sont carnivores?",
-            "Points": "2",
-            "type": "ouverte",
-            "Choix": "",
-            "Reponse attendu": "oui",
-            "Explication": "non"
-        },
-        "3": {
-            "Question": "Quelles plantes sont carnivores?",
-            "Points": "2",
-            "type": "ouverte",
-            "Choix": "",
-            "Reponse attendu": "oui",
-            "Explication": "non"
-        },
-        "4": {
             "Question": "Le ciel est bleu?",
             "Points": "1",
             "type": "qcm",
             "Choix": [
                 "oui",
                 "non",
-                "peut-être"
+                "peut-ï¿½tre"
             ],
             "Reponse attendu": "non",
             "Explication": "oui"
         },
-        "5": {
-            "Question": "Le ciel est bleu?",
+        "3": {
+            "Question": "de quelle couleur est le soleil ?",
             "Points": "1",
             "type": "qcm",
             "Choix": [
-                "oui",
-                "non",
-                "peut-être"
+                "rouge",
+                "jaune",
+                "je sais pas"
+            ],
+            "Reponse attendu": "non",
+            "Explication": "oui"
+        },
+        "4": {
+            "Question": "qui est le president de la republique en 2022 ?",
+            "Points": "1",
+            "type": "qcm",
+            "Choix": [
+                "Franï¿½ois Hollande",
+                "Nicolas Sarkozy",
+                "Emmanuel Macron",
+                "Franï¿½ois Mitterrand"
             ],
             "Reponse attendu": "non",
             "Explication": "oui"

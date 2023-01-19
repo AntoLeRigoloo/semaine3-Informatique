@@ -15,10 +15,14 @@
 
     <title>Document</title>
 </head>
+<script type="text/javascript" src="{% static 'functiontest.js' %}"></script>
 
 <body>
+    <div class="header">
+        <span class="spanHeader"onclick="">Questionnaire</span>
+    </div>
     <div class="form-container">
-        <form id="form" class="form" method="post">
+        <form action="../correction/" id="form" class="form" method="post">
             {% csrf_token %}
         </form>
     </div>
@@ -30,7 +34,6 @@
 </body>
 
 <script type="text/javascript" src="{% static 'functionQuestionnaire.js' %}"></script>
-<script type="text/javascript" src="{% static 'functiontest.js' %}"></script>
 
 
 <script>
