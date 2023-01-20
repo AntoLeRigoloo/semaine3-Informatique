@@ -3,18 +3,19 @@ import json
 import openai
 import os
 
-openai.api_key = "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"
 
 
 
 
-def CallChatGpt(question,reponse):
+def CallChatGpt(question,reponse, ApiKey):
     '''Cette fonction permet d'envoyer a 'chat GPT' un texte predefini,
     celui-ci est formaté pour que l'IA comprenne bien le contexte de la question et retourne une reponse 
     predefini en 'binaire' (.\n\nCorrecte ,  .\n\nIncorrect) qui nous permettra par la suite de l'ananlyser
     '''
     questionAposer = "Partons du principe que tu es un professeur ayant realise un examen. a la question comportant la consigne : {}. ton eleve a repondu : {}. est-ce que cette réponse est correcte ou incorrecte ? Réponds uniquement en un seul mot sans utilisation de points à la fin de ta phrase".format(question,reponse)
     #la phrase transmise a chat GPT
+    openai.api_key = str(ApiKey)
+
     res = str(openai.Completion.create(
         model="text-davinci-003",
         prompt = questionAposer,
@@ -39,7 +40,7 @@ def Configuration(request):
     On met le JSON dans un dossier dans la racine du projet 
     '''
     if request.method == "POST":
-        print (request.POST.dict())
+        # print (request.POST.dict())
         try :
             if request.POST.dict()["JS"] != "":
                 with open("main/static/functiontest.js", "w") as outfile:
@@ -47,16 +48,25 @@ def Configuration(request):
                     outfile.write(request.POST.dict()["JS"])
         except:
             pass
-        
-
         try :
             file = json.loads(request.POST.dict()["JSON"])
-            json_object = json.dumps(file, ensure_ascii=False, indent=4)
-            with open("media/question/data.json", "w") as outfile:
+            with open('media/question/data.json', 'w', encoding='utf-8') as outfile:
+                json_object = json.dumps(file, ensure_ascii=False, indent=4)
+                print("sucess to open")                                     #debug
                 outfile.truncate(0)
-                outfile.write(json_object)
+                print("success to truncate")   
+                try :                                                                     #debug
+                    outfile.write(str(json_object))
+                    print("sucess to write")                                 #debug
+                except : 
+                    print("probleme to write")
+                    pass
+            pass
         except:
             pass
+        
+
+       
     return render(request, 'main/configuration.html')
 
 
@@ -113,6 +123,7 @@ def Correction(request):
         jsonfile = json.load(json_file)                     
 
     nombre_question=len(jsonfile["QCM"])    #représente le nombre de question dans le json
+    ApiKey = jsonfile["ApiKey"]             #représente l'API key du json
     question=[]
     reponse_list=[]
     points=[]
@@ -126,7 +137,7 @@ def Correction(request):
         reponsePost = request.POST.dict()       #représente les réponses de l'élève
 
         for i in range (nombre_question):
-            Correction.append(CallChatGpt(question[i],reponsePost["Question{}".format(i+1)]))       #ajoute à la liste Correction la réponse de l'élève si elle est correcte/incorret
+            Correction.append(CallChatGpt(question[i],reponsePost["Question{}".format(i+1)],ApiKey))       #ajoute à la liste Correction la réponse de l'élève si elle est correcte/incorret
 
         for i in range (nombre_question):
             reponse_list.append(reponsePost["Question{}".format(i+1)])      #ajoute à la liste reponse_list les réponses de l'élève
