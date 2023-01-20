@@ -17,8 +17,13 @@ body{
     position: fixed;
     z-index: 100;
     background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
-
+img{
+    width: 100px;
+}
 .spanHeader{
     font-weight: bold;
     font-size: 25px;

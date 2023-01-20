@@ -15,6 +15,7 @@
 
 <body>
     <div class="header">
+        <img class="logo" src="{% static 'img.png'%}" alt="logo">
         <span class="spanHeader"onclick="">Questionnaire</span>
     </div>
     <div class="form-container">
@@ -50,10 +51,9 @@
 
     function ReadJSON(){ // va recuperer le JSON et appeler les differentes fonctions en fonction du type des questions
         let json = JSON.parse("{{jsonfile|escapejs}}"); // recupere le JSON depuis le contexte ( escapeJS permet de recuperer un JSON propre et pas polué avec des symboles bizarres du a Django)
+        console.log("{{jsonfile|escapejs}}");
         let QCM = json.QCM; 
         let length = Object.keys(QCM).length; // recupere le nombre de question 
-
-        
         for (let i=1; i < length+1; i++){ // va executer une fonction pour chaque passage dans la boucle
             let question = QCM[i];
             let Type = question.type; // recupere le type dans le JSON

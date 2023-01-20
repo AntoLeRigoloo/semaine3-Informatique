@@ -14,10 +14,11 @@
 </head>
 <body>
     <div class="header">
+        <img class="logo" src="{% static 'img.png'%}" alt="logo">
         <span class="spanHeader"onclick="">Correction</span>
     </div>
     <div class="container-note">
-        <span class="span-note">Felicitation, Tu as eu {{note}}/20</span>
+        <span class="span-note">Felicitations, Tu as eu {{note}}/20</span>
     </div>
     <div class="container-questions">
         {% for Element in ElementsQuestion %}

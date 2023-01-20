@@ -30,7 +30,16 @@
     position: fixed;
     z-index: 100;
     background-color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
    }
+
+   img{
+    width: 100px;
+}
+
    .spanHeader{
     font-weight: bold;
     font-size: 25px;
@@ -96,6 +105,7 @@
 
 <body>
     <div class="header">
+        <img src="{% static 'img.png' %}" alt="logo">
         <span class="spanHeader"onclick="test()">Configuration</span>
     </div>
     <div class="container">

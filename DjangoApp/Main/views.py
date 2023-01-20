@@ -50,7 +50,7 @@ def Configuration(request):
             pass
         try :
             file = json.loads(request.POST.dict()["JSON"])
-            with open('media/question/data.json', 'w', encoding='utf-8') as outfile:
+            with open('media/question/data.json', 'w', encoding="utf-8") as outfile:
                 json_object = json.dumps(file, ensure_ascii=False, indent=4)
                 print("sucess to open")                                     #debug
                 outfile.truncate(0)
@@ -77,8 +77,9 @@ def Questionnaire(request):
     '''
     On recupère le JSON et on le transmet au javascript via la page HTML
     '''
-    with open("media/question/data.json") as json_file:     #On récupère les infos du json et on les stoques dans jsonfile
-        jsonfile = json.dumps(json.load(json_file))    
+    with open("media/question/data.json",encoding="utf-8") as json_file:     #On récupère les infos du json et on les stoques dans jsonfile:
+        jsonfile = json.load(json_file)
+        jsonfile = json.dumps(jsonfile, indent=4 , ensure_ascii=False)    
     context = {
         "jsonfile" : jsonfile,  #On met toutes les info dans le context pour l'envoyer dans questionnaire.html
     }
@@ -108,7 +109,7 @@ def Note(liste_reponse):
             total_points.append(int(question['Points']))    #on rajoute toutes les notes dans une liste en vu d'afficher le nombre de points reussi sur chaques questions
         reponse += 1 #+1 pour augmenter la boucle
 
-    return [sum(total_points),bareme,sum(total_points)*20/bareme]
+    return [sum(total_points),bareme,int(sum(total_points)*20/bareme)]
 
 
 
